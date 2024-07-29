@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -12,28 +11,24 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE];
 	static int	buf_i;
 	static int	b_read;
 	char		*line;
 	char		*nline;
 	int			l_size;
 	int			l_cap;
-	int			i;
 	char		c;
 
 	l_cap = 0;
-	nline = NULL;
 	l_size = 0;
-	l_cap = BUFFER_SIZE + 1;
+	l_cap = BUFFER_SIZE;
 	if (fd < 0)
 		return (NULL);
-	line =(char *)malloc(l_cap);
+	line = (char *)malloc(l_cap);
 	if (!line)
 		return (NULL);
 	while (1)
@@ -43,7 +38,17 @@ char	*get_next_line(int fd)
 			b_read = read(fd, buf, BUFFER_SIZE);
 			buf_i = 0;
 			if (b_read <= 0)
-				break;
+			{
+				if (l_size > 0)
+				{
+					line[l_size] = '\0';
+					return (line);
+				}
+				free(line);
+				buf_i = 0;
+				b_read = 0;
+				return (NULL);
+			}
 		}
 		while (buf_i < b_read)
 		{
@@ -57,12 +62,7 @@ char	*get_next_line(int fd)
 					free(line);
 					return (NULL);
 				}
-				i = 0;
-				while (i < l_size)
-				{
-					nline[i] = line[i];
-					i++;
-				}
+				memcpy(nline, line, l_size);
 				free(line);
 				line = nline;
 			}
@@ -83,19 +83,31 @@ char	*get_next_line(int fd)
 	return (NULL);
 }
 
+
 // int main(void)
 // {
-// 	printf("######  FILE ANALYSIS STARTS HERE  ######\n\n\n\n\n");
-//     int fd = open("text.txt", O_RDONLY);
-//     if (fd >= 0)
-//     {
-//         char *line;
-//         while ((line = get_next_line(fd)) != NULL)
-//         {
-//             printf("Line: %s", line);
-//             free(line);
-//         }
-//         close(fd);
-//     }
-//     return 0;
+// 	int fd;
+// 	char *next_line;
+// 	int count;
+
+// 	fd = open("text.txt", O_RDONLY);
+// 	count = 0;
+// 	while ((next_line = get_next_line(fd)))
+// 	{
+// 		count++;
+// 		printf("[%d]:%s", count, next_line);
+// 		free(next_line);
+// 	}
+// 	next_line = get_next_line(fd);
+// 	printf("%s\n", next_line);
+// 	free(next_line);
+// 	close(fd);
+
+// 	return (0);
 // }
+// i = 0;
+				// while (i < l_size)
+				// {
+				// 	nline[i] = line[i];
+				// 	i++;
+				// }

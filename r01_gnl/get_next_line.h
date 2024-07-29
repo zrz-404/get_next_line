@@ -20,10 +20,8 @@
 # include <fcntl.h> 	// open
 # include <stdio.h>		//
 # include <unistd.h>	// read
+#include <string.h>		// test memcpy
 
 char	*get_next_line(int fd);
-int		read_from_fd(int fd, char *buf, int *buf_i, int *b_read);
-char	*expand_line_buffer(char *line, int *l_cap);
-char	*extract_line(char *buf, int *buf_i, int *b_read, int *l_size, int *l_cap);
 
 # endif

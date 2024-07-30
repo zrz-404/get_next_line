@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 10:52:40 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/07/29 15:20:42 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:35:10 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <limits.h>
 
 char	*ft_line_read(char *start)
 {
@@ -97,24 +98,25 @@ char	*get_next_line(int fd)
 	return (tmp);
 }
 
-int main(void)
-{
-	int fd;
-	char *next_line;
-	int count;
+// int main(void)
+// {
+// 	int fd;
+// 	char *next_line;
+// 	int count;
 
-	fd = open("text.txt", O_RDONLY);
-	count = 0;
-	while ((next_line = get_next_line(fd)))
-	{
-		count++;
-		printf("[%d]:%s", count, next_line);
-		free(next_line);
-	}
-	next_line = get_next_line(fd);
-	printf("%s\n", next_line);
-	free(next_line);
-	close(fd);
+// 	fd = open("text.txt", O_RDONLY);
+// 	printf("fd: %d\n", fd);
+// 	count = 0;
+// 	while ((next_line = get_next_line(INT_MAX - 1)))
+// 	{
+// 		count++;
+// 		printf("[%d]:%s", count, next_line);
+// 		free(next_line);
+// 	}
+// 	next_line = get_next_line(fd);
+// 	// printf("%s\n", next_line);
+// 	free(next_line);
+// 	close(fd);
 
-	return (0);
-}
+// 	return (0);
+// }

@@ -24,7 +24,6 @@
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *str);
-char	*get_next_line(int fd);
 char	*ft_readed_line(char *src);
 char	*ft_strchr(char *s, int c);
 char	*ft_move_start(char *start);
